@@ -44,14 +44,12 @@ int main(int argc, char* argv[]) {
 	get_ip_address(my_ip_address);
 	get_mac_address(my_mac_address);
 	int fir = 2;
-	int sec= 3;
-	while(true):{
+	for(int sec=3;sec>argc;sec +=2){
 		EthArpPacket packet;
 		send_packet(packet,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir]);
 		get_packet(hadle,sender_address);
 		send_packet(packet,sender_address,my_mac_address,argv[sec],argv[fir]);
 		pcap_close(handle);
-		sec = sec+2;
 		fir = fir +2;
 	}
 }
