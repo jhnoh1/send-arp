@@ -131,6 +131,6 @@ void get_packet(pcap_t *handle,char *sender_address){
 			return;
 	}
 	struct EthArpPacket *ARPpacket = (EthArpPacket *)packet;
-	uint8_t sender[6] = (uint8_t*)(&ARPpacket.eth_.smac_.);
+	uint8_t sender[6] = (uint8_t*)(&ARPpacket.eth_.smac_);
 	char sender_address[18] = ("%.2x:%.2x:%.2x:%.2x:%.2x:%.2x",sender[0],sender[1],sender[2],sender[3],sender[4],sender[5]);
 }
