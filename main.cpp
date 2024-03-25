@@ -133,5 +133,5 @@ void get_packet(pcap_t *handle,char *sender_address){
 			return;
 	}
 	struct EthArpPacket *ARPpacket = (EthArpPacket *)packet;
-	sender_address = &ARPpacket->_.smac_;
+	sender_address = &ARPpacket->smac_;
 }
