@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 		EthArpPacket packet;
 		send_packet(packet,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir],"00:00:00:00:00:00");
 		get_packet(hadle,sender_address);
-		send_packet(packet,sender_address,my_mac_address,argv[sec],argv[fir]);
+		send_packet(packet,sender_address,my_mac_address,argv[sec],argv[fir],my_mac_address);
 		pcap_close(handle);
 		fir = fir +2;
 	}
