@@ -45,10 +45,9 @@ int main(int argc, char* argv[]) {
 	get_mac_address(my_mac_address);
 	int fir = 2;
 	for(int sec=3;sec>argc;sec +=2){
-		EthArpPacket packet;
-		send_packet(packet,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir],"00:00:00:00:00:00");
+		send_packet(handle,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir],"00:00:00:00:00:00");
 		get_packet(hadle,sender_address);
-		send_packet(packet,sender_address,my_mac_address,argv[sec],argv[fir],my_mac_address);
+		send_packet(handle,sender_address,my_mac_address,argv[sec],argv[fir],my_mac_address);
 		pcap_close(handle);
 		fir = fir +2;
 	}
@@ -98,7 +97,8 @@ void get_mac_address(char* mac_address) {
             (unsigned char)ifr.ifr_hwaddr.sa_data[4],
             (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
 }
-void send_packet(EthArpPacket *packet,char *dmac,char *smac,char *sip,char *tip, char* tmac){
+void send_packet(pcap_t* handle,char *dmac,char *smac,char *sip,char *tip, char* tmac){
+		EthArpPacket packet;
 		packet.eth_.dmac_ = Mac(dmac);
 		packet.eth_.smac_ = Mac(smac);
 		packet.eth_.type_ = htons(EthHdr::Arp);
