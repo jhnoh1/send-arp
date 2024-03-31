@@ -25,33 +25,6 @@ void usage() {
 	printf("sample : send-arp wlan0 192.168.10.2 192.168.10.1\n");
 }
 
-int main(int argc, char* argv[]) {
-	if (argc%2 != 1) {
-		usage();
-		return -1;
-	}
-
-	char* dev = argv[1];
-	char errbuf[PCAP_ERRBUF_SIZE];
-	pcap_t* handle = pcap_open_live(dev, BUFSIZ, 1, 1, errbuf);
-	if (handle == nullptr) {
-		fprintf(stderr, "couldn't open device %s(%s)\n", dev, errbuf);
-		return -1;
-	}
-	char my_ip_address[16]; // IP 주소를 저장할 문자열
-    	char my_mac_address[18];
-	char sender_address[18];
-	get_ip_address(my_ip_address);
-	get_mac_address(my_mac_address);
-	int fir = 2;
-	for(int sec=3;sec>argc;sec +=2){
-		send_packet(handle,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir],"00:00:00:00:00:00",1);
-		get_packet(hadle,sender_address);
-		send_packet(handle,sender_address,my_mac_address,argv[sec],argv[fir],my_mac_address,2);
-		pcap_close(handle);
-		fir = fir +2;
-	}
-}
 
 
 // IP 주소를 가져오는 함수
@@ -131,4 +104,33 @@ void get_packet(pcap_t *handle,char *sender_address){
 	struct EthArpPacket *ARPpacket = (EthArpPacket *)packet;
 	uint8_t sender[6] = (uint8_t*)(&ARPpacket.eth_.smac_);
 	char sender_address[18] = ("%.2x:%.2x:%.2x:%.2x:%.2x:%.2x",sender[0],sender[1],sender[2],sender[3],sender[4],sender[5]);
+}
+
+
+int main(int argc, char* argv[]) {
+	if (argc%2 != 1) {
+		usage();
+		return -1;
+	}
+
+	char* dev = argv[1];
+	char errbuf[PCAP_ERRBUF_SIZE];
+	pcap_t* handle = pcap_open_live(dev, BUFSIZ, 1, 1, errbuf);
+	if (handle == nullptr) {
+		fprintf(stderr, "couldn't open device %s(%s)\n", dev, errbuf);
+		return -1;
+	}
+	char my_ip_address[16]; // IP 주소를 저장할 문자열
+    	char my_mac_address[18];
+	char sender_address[18];
+	get_ip_address(my_ip_address);
+	get_mac_address(my_mac_address);
+	int fir = 2;
+	for(int sec=3;sec>argc;sec +=2){
+		send_packet(handle,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir],"00:00:00:00:00:00",1);
+		get_packet(hadle,sender_address);
+		send_packet(handle,sender_address,my_mac_address,argv[sec],argv[fir],my_mac_address,2);
+		pcap_close(handle);
+		fir = fir +2;
+	}
 }
