@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
 	int fir = 2;
 	for(int sec=3;sec>argc;sec +=2){
 		send_packet(handle,"ff:ff:ff:ff:ff:ff",my_mac_address,my_ip_address,argv[fir],"00:00:00:00:00:00",1);
-		get_packet(hadle,sender_address);
+		get_packet(handle,sender_address);
 		send_packet(handle,sender_address,my_mac_address,argv[sec],argv[fir],my_mac_address,2);
 		pcap_close(handle);
 		fir = fir +2;
